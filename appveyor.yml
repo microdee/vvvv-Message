@@ -1,0 +1,101 @@
+# Notes:
+#   - Minimal appveyor.yml file is an empty file. All sections are optional.
+#   - Indent each level of configuration with 2 spaces. Do not use tabs!
+#   - All section names are case-sensitive.
+#   - Section names should be unique on each level.
+
+version: 0.0.4444 # this will be replaced
+
+environment:
+# change here!
+  packageVersion: 2.8.8
+
+branches:  
+  only:
+  - develop
+  - master
+
+#nuget publish will fail if not Release
+configuration: Release
+platform: Any CPU
+
+pull_requests:
+  do_not_increment_build_number: true
+
+init:
+- ps: $env:IsPrerelease = ($env:APPVEYOR_REPO_TAG -eq $False) -or ($env:APPVEYOR_REPO_BRANCH -ne "master")
+- ps: $env:buildVersion = if ($env:IsPrerelease -eq $False) {"$env:packageVersion"} else {"$env:packageVersion.$env:appveyor_build_number"}
+- ps: $env:nugetVersion = if ($env.IsPrerelease -eq $False) { "$env:buildVersion" } else {"$env:packageVersion-$env:APPVEYOR_REPO_BRANCH$env:appveyor_build_number" }
+# send version back
+- ps: Update-AppveyorBuild -Version $env:buildVersion
+- ps: echo "PreRelease = $env:IsPrerelease"
+
+# patch all Assemblies to the current build number
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '$(buildVersion)'
+  assembly_file_version: '$(buildVersion)'
+  assembly_informational_version: '$(nugetVersion)'
+
+#add custom nuget feed to allow vvvv alpha nugets
+install:
+- ps: nuget sources add -Name VVVV -Source http://vvvv.org:8111/guestAuth/app/nuget/v1/FeedService.svc/
+
+# having those helps appveyor perf tremendously
+cache: 
+- src/packages -> **\packages.config
+- copy -> copy
+- lib -> lib
+#- '%LocalAppData%\NuGet\Cache'
+
+# untried yet.
+nuget:
+  project_feed: true
+
+before_build:
+- ps: nuget restore src/vvvv-Message.sln -verbosity quiet
+
+build:
+  project: src/vvvv-Message.sln
+  publish_wap: true
+  verbosity: minimal
+
+after_build:
+- ps: nuget pack src/MessageCore/SharpMessage.nuspec -version "$env:nugetVersion"
+
+test_script:
+- ps: vstest.console /Logger:Appveyor /InIsolation /Platform:x64 test\x64\Release\VVVV.Packs.Messaging.Tests.dll
+
+artifacts:
+- path: build/AnyCPU/$(configuration)
+  name: vvvv-Message
+  type: WebDeployPackage
+
+- path: build/AnyCPU/$(configuration)/core/SharpMessage.dll
+  name: dll
+
+- path: '**\SharpMessage*.nupkg'
+  name: SharpMessage
+  type: NuGetPackage
+
+deploy:
+- provider: GitHub
+  draft: true
+  description: Automatic Deployment powered by AppVeyor
+  auth_token:
+    secure: GMMqt9Z8X4poG9NQFBGrbi4hiVnj5Qc1XIWmfl0rdqi8mJevjvECGKRlyIYy07aO
+  artifact: vvvv-Message dll
+  prerelease: $(IsPrerelease)
+  on:
+    #allow all branches
+    appveyor_repo_tag: true        # deploy on tag push only
+
+- provider: NuGet
+  api_key:
+    secure: 0hhwaeSEUfUNsjinrtuxpRwIAhwnpo4CdmcVd9nQtxh6kdSLnU1jJkPVRW+sDxkS
+  skip_symbols: true
+  artifact: SharpMessage
+  on:
+    #alllow all branches
+    appveyor_repo_tag: true        # deploy on tag push only

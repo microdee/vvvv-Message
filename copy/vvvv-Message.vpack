@@ -1,17 +1,18 @@
 <vpack>
   <meta>
     <name>vvvv-Message</name>
-    <source>https://github.com/velcrome/vvvv-Message.git</source>
+    <source>https://github.com/velcrome/vvvv-Message</source>
     <author>velcrome</author>
   </meta>
   <install>
-	GitClone("https://github.com/velcrome/vvvv-Message.git", Pack.TempDir, false, "beta35");
-
-        BuildSolution(2015, Pack.TempDir + "\\src\\vvvv-Message.sln", "Release|AnyCPU", true);
-
-	CopyDir(
-	    Pack.TempDir + "\\build\\AnyCPU\\Release",
+    Download(
+      "https://github.com/velcrome/vvvv-Message/releases/download/2.8.7/vvvv-Message.zip",
+      VPM.TempDir + "\\vvvv-Message.zip"
+    );
+    Extract(VPM.TempDir + "\\vvvv-Message.zip", Pack.TempDir + "\\extract");
+	  CopyDir(
+	    Pack.TempDir + "\\extract",
 	    VVVV.Dir + "\\packs\\vvvv-Message"
-	);
+	  );
   </install>
 </vpack>

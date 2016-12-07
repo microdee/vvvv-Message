@@ -1,4 +1,4 @@
-<!DOCTYPE PATCH  SYSTEM "https://vvvv.org/versions/vvvv50alpha34.106.dtd" >
+﻿<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50alpha34.106.dtd" >
    <PATCH nodename="C:\apps\code\vvvv_50alpha34.106_x64\packs\vvvv-Message\nodes\plugins\Split (Message Formular) help.v4p" scrollx="0" scrolly="0" systemname="Split (Message) help" filename="C:\dev\vvvv\vvvv-Message\patches\plugins\Split (Message) help.v4p">
    <BOUNDS type="Window" left="8115" top="2625" width="12810" height="10035">
    </BOUNDS>

@@ -33,9 +33,15 @@
     <DebugSymbols>False</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FeralTic">
-      <HintPath>..\..\copy\core\x64\FeralTic.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="MsgPack">
+      <HintPath>..\packages\MsgPack.Cli.0.8.0\lib\net46\MsgPack.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>      
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>      
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
@@ -52,11 +58,16 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.DX11.Core">
-      <HintPath>..\..\copy\core\x64\VVVV.DX11.Core.dll</HintPath>
+      <HintPath>..\..\lib\x64\VVVV.DX11.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.DX11.Lib">
-      <HintPath>..\..\copy\core\x64\VVVV.DX11.Lib.dll</HintPath>
+      <HintPath>..\..\lib\x64\VVVV.DX11.Lib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="FeralTic">
+      <HintPath>..\..\lib\x64\FeralTic.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.Packs.Time, Version=0.6, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VVVV.Packs.Time.0.6\lib\net40\VVVV.Packs.Time.dll</HintPath>
@@ -70,16 +81,6 @@
     <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <HintPath>..\packages\Microsoft.VisualStudio.OLE.Interop.7.10.6070\lib\Microsoft.VisualStudio.OLE.Interop.dll</HintPath>
       <Private>False</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MsgPack">
-      <HintPath>..\packages\MsgPack.Cli.0.7.1\lib\net46\MsgPack.dll</HintPath>
-      <Private>False</Private>
-      <SpecificVersion>False</SpecificVersion>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -135,19 +136,18 @@
     <Compile Include="Utils\Fields\MessageTopicNode.cs" />
     <Compile Include="Utils\MessageRemoveNode.cs" />
     <Compile Include="Utils\Fields\MessageRenameField.cs" />
-    <Compile Include="ExtendedProfile.cs" />
+    <Compile Include="VVVVProfile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MessageCore\VVVV.Packs.Messaging.Core.csproj">
+    <ProjectReference Include="..\MessageCore\SharpMessage.csproj">
       <Project>{c2f6ec8a-aa56-4121-b60f-72012d192835}</Project>
-      <Name>VVVV.Packs.Messaging.Core</Name>
+      <Name>SharpMessage</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <Target Name="AfterBuild">
     <ItemGroup>

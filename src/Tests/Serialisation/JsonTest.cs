@@ -2,12 +2,15 @@
 using System.Linq;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using VVVV.Packs.Messaging.Nodes;
 
 namespace VVVV.Packs.Messaging.Tests
 {
     [TestClass]
     public class JsonTest
     {
+        VVVVProfile profile = new VVVVProfile();
+
         #region basics
         [TestMethod]
         public void Empty()

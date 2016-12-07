@@ -1,4 +1,4 @@
-<!DOCTYPE PATCH  SYSTEM "https://vvvv.org/versions/vvvv50alpha34.106.dtd" >
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50alpha34.106.dtd" >
    <PATCH nodename="C:\apps\code\vvvv_50alpha34.106_x64\packs\vvvv-Message\nodes\plugins\ConfigKeep (Message Formular) help.v4p" systemname="Config (Message) help" filename="C:\dev\vvvv\vvvv-Message\copy\nodes\plugins\Config (Message) help.v4p" scrollx="0" scrolly="825">
    <BOUNDS type="Window" left="3480" top="1185" width="12855" height="11445">
    </BOUNDS>
